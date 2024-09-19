@@ -9,7 +9,10 @@ export default function Singup()
 
     const addUser = () =>
     {
-        
+        const userCount = localStorage.length
+        const nextIndex = userCount + 1
+
+        localStorage.setItem(`user${nextIndex}`, JSON.stringify({ username, password }))
     }
 
     return <div className=" flex gap-3 flex-col text-black">
@@ -19,18 +22,18 @@ export default function Singup()
         <input
         className="p-4"
         type="text"
-        placeholder="username"
+        placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
          />
         <input
         className="p-4"
         type="text"
-        placeholder="password"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
          />
 
-         <button className=" p-4 bg-fuchsia-500 text-white font-semibold text-xl">Submit - signUp</button>
+         <button onClick={addUser} className=" p-4 bg-fuchsia-500 text-white font-semibold text-xl">Submit - signUp</button>
     </div>
 }
