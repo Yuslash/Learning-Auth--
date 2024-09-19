@@ -1,0 +1,13 @@
+POST http://localhost:3000/verify
+[
+  {
+    "user": "sibikrishnakrishna@gmail.com",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpYmlrcmlzaG5ha3Jpc2huYUBnbWFpbC5jb20iLCJpYXQiOjE3MjY3MzQwOTF9.cBz6EktiZseraTyYWtLIo1aq9P_3NczWSt0UbOW8YQw"
+  }
+]
+
+
+###
+
+GET http://localhost:3000/token
+
