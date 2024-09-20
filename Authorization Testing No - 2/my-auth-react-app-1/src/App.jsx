@@ -3,8 +3,11 @@ import Signup from "./Components/Signup"
 import LoginPage from "./Components/LoginPage"
 import ProtectedPage from './Components/ProtectedPage'
 import FinalLogin from "./Components/FinalLogin"
+import EnvTest from "./Components/EnvTest"
 
 export default function App() {
+
+  const token = REACT_APP_TOKEN
 
   return <>
     <Router>
@@ -13,8 +16,10 @@ export default function App() {
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/Protected" element={<ProtectedPage />} />
         <Route path="/FinalLogin" element={<FinalLogin />} />
+        <Route path="/ev" element={<EnvTest />} />
       </Routes>
     </Router>
+
   </>
 
 }
