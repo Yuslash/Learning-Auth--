@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 export default function Singup()
 {
     const [ username, setUsername ] = useState('')
     const [ password, setPassword ] = useState('')
+    const navigate = useNavigate()
 
     console.log(username,password);
 
@@ -16,9 +18,14 @@ export default function Singup()
         })
 
         if(!userExist) {
-            const userCount = localStorage.length
-            const nextIndex = userCount + 1
-            localStorage.setItem(`user${nextIndex}`, JSON.stringify({ username, password }))
+            localStorage.setItem('user', JSON.stringify({ username, password }))
+
+            const token = "sibikrishnaistobusyrightnow"
+
+            localStorage.setItem('authToken', token)
+
+            navigate('/Protected')
+
             alert(`user added : ${username}`)
         } else {
             alert(`this passowrd : ${password} this username :${username} has it so you cannot SignUP`)
