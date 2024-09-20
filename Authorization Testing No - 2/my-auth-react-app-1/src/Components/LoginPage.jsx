@@ -24,13 +24,18 @@ export default function LoginPage()
         })
 
         if(userExist) {
+
             alert(`Login Successfull for user ${username}`)
+
         } else {
+
             alert(`Invalid username and password`)
+
         }
     }
 
     return <div className="flex flex-col gap-2">
+
         <h1 className="font-semibold text-xl">This is Login Page</h1>
 
         <input
@@ -40,6 +45,8 @@ export default function LoginPage()
         value={username}
         onChange={(e) => setUsername(e.target.value)}
          />
+
+         
         <input
         className="p-4 text-black"
         type="password"
