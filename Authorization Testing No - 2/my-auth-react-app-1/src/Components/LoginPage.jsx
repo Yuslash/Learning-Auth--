@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginPage()
 {
     const [ username , setUsername ] = useState('')
     const [ password, setPassword ] = useState('')
+    const navigate = useNavigate()
 
     const handleLogin = () => 
     {
@@ -25,7 +27,20 @@ export default function LoginPage()
 
         if(userExist) {
 
+            // const token = localStorage.getItem('authToken')
+
+            // const expectedToken = "sibikrishnaistobusyrightnow"
+
+            // if(token && token === expectedToken ) {
+
+            //     navigate('/Protected')
+
+            // }
+
             alert(`Login Successfull for user ${username}`)
+            
+            navigate('/Protected')
+
 
         } else {
 
@@ -46,7 +61,7 @@ export default function LoginPage()
         onChange={(e) => setUsername(e.target.value)}
          />
 
-         
+
         <input
         className="p-4 text-black"
         type="password"
