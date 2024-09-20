@@ -16,7 +16,7 @@ export default function ProtectedPage()
             setIsAuthenticated(true)
         } else {
 
-            navigate('/FinalLogin')
+            navigate('/Signup')
 
         }
 
