@@ -7,8 +7,6 @@ export default function Singup()
     const [ password, setPassword ] = useState('')
     const navigate = useNavigate()
 
-    console.log(username,password);
-
     const addUser = () =>
     {
 
@@ -18,11 +16,12 @@ export default function Singup()
         })
 
         if(!userExist) {
+            
             localStorage.setItem('user', JSON.stringify({ username, password }))
 
-            const token = "sibikrishnaistobusyrightnow"
+            const token = import.meta.env.VITE_APP_TOKEN
 
-            localStorage.setItem('authToken', token)
+            localStorage.setItem('authToken', JSON.stringify({ token : token}))
 
             navigate('/Protected')
 
