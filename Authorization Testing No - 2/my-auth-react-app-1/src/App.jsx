@@ -7,8 +7,6 @@ import EnvTest from "./Components/EnvTest"
 
 export default function App() {
 
-  const token = REACT_APP_TOKEN
-
   return <>
     <Router>
       <Routes>
