@@ -26,7 +26,7 @@ export default function FinalLogin()
 
         if (userExist) {
 
-            const token = "sibikrishnaistobusyrightnow"
+            const token = import.meta.env.VITE_APP_TOKEN
 
             localStorage.setItem('authToken', token)
 
