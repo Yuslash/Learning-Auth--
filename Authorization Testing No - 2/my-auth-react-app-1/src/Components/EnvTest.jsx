@@ -1,8 +1,10 @@
 export default function EnvTest() {
 
-    console.log(import.meta.env.VITE_APP_TOKEN);
+    
 
-    return <>
-        <h1>welcome to env test page</h1>
-    </>
+    return <div className="button-con gap-3">
+        <button className="button hover:bg-gray-600 hover:text-white hover:font-semibold hover:text-md">Proceed</button>
+        <button className="button hover:bg-gray-600 hover:text-white hover:font-semibold hover:text-md">Proceed</button>
+        <button className="button hover:bg-gray-600 hover:text-white hover:font-semibold hover:text-md">Proceed</button>
+    </div>
 }

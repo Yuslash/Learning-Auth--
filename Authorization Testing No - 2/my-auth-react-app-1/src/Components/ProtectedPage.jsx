@@ -26,7 +26,7 @@ export default function ProtectedPage()
 
                 } else {
 
-                    navigate('/Signup')
+                    navigate('/signup')
 
                 }
 
@@ -35,6 +35,9 @@ export default function ProtectedPage()
                 console.log(`Invalid json in authToken ${error}`);
 
             }
+        } else {
+            alert('You Didnt Have Any Accound Please Sign-In or Log In If You Have Any Account')
+            navigate('/signup')
         }
 
     },[navigate])
@@ -77,8 +80,8 @@ export default function ProtectedPage()
 
     return isAuthenticated ?  (
         <>
-            <h1 className="font-bold text-3xl">Welcome {username}</h1>
-            <h1 className=" font-semibold text-2xl">this is Protected - Page</h1>
+            <h1 className="font-bold text-3xl text-black">Welcome {username}</h1>
+            <h1 className=" font-semibold text-2xl text-black">this is Protected - Page</h1>
         </>
     ) : null
 }
