@@ -27,7 +27,9 @@ export default function Singup()
 
             alert(`user added : ${username}`)
         } else {
+
             alert(`this passowrd : ${password} this username :${username} has it so you cannot SignUP`)
+        
         }
     }
 
