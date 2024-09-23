@@ -4,8 +4,9 @@ import LoginPage from "./Components/LoginPage"
 import ProtectedPage from './Components/ProtectedPage'
 import FinalLogin from "./Components/FinalLogin"
 import EnvTest from "./Components/EnvTest"
-
 import Profile from "./Components/Profile"
+import UploadVideo from "./Client/UploadVideo"
+
 export default function App() {
 
   return <>
@@ -17,9 +18,9 @@ export default function App() {
         <Route path="/FinalLogin" element={<FinalLogin />} />
         <Route path="/ev" element={<EnvTest />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/upload" element={<UploadVideo />} />
       </Routes>
     </Router>
-
   </>
 
 }
