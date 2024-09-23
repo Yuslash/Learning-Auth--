@@ -6,6 +6,7 @@ import FinalLogin from "./Components/FinalLogin"
 import EnvTest from "./Components/EnvTest"
 import Profile from "./Components/Profile"
 import UploadVideo from "./Client/UploadVideo"
+import StreamPage from "./StreamPage/StreamPage"
 
 export default function App() {
 
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/ev" element={<EnvTest />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/upload" element={<UploadVideo />} />
+        <Route path="/stream" element={<StreamPage />} />
       </Routes>
     </Router>
   </>
