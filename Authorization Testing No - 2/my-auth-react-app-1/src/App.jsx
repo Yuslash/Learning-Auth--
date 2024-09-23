@@ -7,6 +7,9 @@ import EnvTest from "./Components/EnvTest"
 import Profile from "./Components/Profile"
 import UploadVideo from "./Client/UploadVideo"
 import StreamPage from "./StreamPage/StreamPage"
+import DynamicCard from "./Dynamic/DynamicCard"
+import CardList from "./Dynamic/CardList"
+import CardDetail from "./Dynamic/CardDetail"
 
 export default function App() {
 
@@ -21,6 +24,12 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/upload" element={<UploadVideo />} />
         <Route path="/stream" element={<StreamPage />} />
+
+        {/* CardLIst START*/}
+        <Route path="/dynamic" element={<DynamicCard />} />
+        <Route path="/cardlist" element={<CardList />} />
+        <Route path="/card/:id" element={<CardDetail />} />
+        {/* CardList END */}
       </Routes>
     </Router>
   </>
