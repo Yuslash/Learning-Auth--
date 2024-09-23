@@ -1,0 +1,52 @@
+[
+
+    {
+        "id": 1,
+        "title" : "card 1",
+        "description" : "this is card 1",
+        "image" : "/wallpaper.png"
+    },
+    {
+        "id" : 2,
+        "title" : "card 2",
+        "description" : "this is card 2",
+        "image" : "/stream.png"
+    },
+    {
+        "id": 3,
+        "title": "card 3",
+        "description": "this is card 3",
+        "image": "/wallpaper.png"
+    },
+    {
+        "id": 4,
+        "title": "card 4",
+        "description": "this is card 4",
+        "image": "/stream.png"
+    },
+    {
+        "id": 5,
+        "title": "card 5",
+        "description": "this is card 5",
+        "image": "/wallpaper.png"
+    },
+    {
+        "id": 6,
+        "title": "card 6",
+        "description": "this is card 6",
+        "image": "/stream.png"
+    },
+    {
+        "id": 7,
+        "title": "card 7",
+        "description": "this is card 7",
+        "image": "/wallpaper.png"
+    },
+    {
+        "id": 8,
+        "title": "card 8",
+        "description": "this is card 8",
+        "image": "/stream.png"
+    }
+
+]
