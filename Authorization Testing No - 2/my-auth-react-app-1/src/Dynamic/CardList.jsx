@@ -3,7 +3,7 @@ import CardData from '../Data/cards.json'
 
 export default function CardList()
 {
-    return <div className=" flex flex-col px-[40px]">
+    return <div className=" flex flex-col px-[40px] xl:px-[10px]">
         <h1 className="text-4xl font-semibold text-yellow-400">this is card list page</h1>
         <div className=" flex flex-wrap gap-5 justify-center mt-8">
         {CardData.map((card) => (
