@@ -10,6 +10,7 @@ import StreamPage from "./StreamPage/StreamPage"
 import DynamicCard from "./Dynamic/DynamicCard"
 import CardList from "./Dynamic/CardList"
 import CardDetail from "./Dynamic/CardDetail"
+import JsonWriter from "./Json/JsonWriter"
 
 export default function App() {
 
@@ -30,6 +31,10 @@ export default function App() {
         <Route path="/cardlist" element={<CardList />} />
         <Route path="/card/:id" element={<CardDetail />} />
         {/* CardList END */}
+
+        {/* JSON Stringfy START */}
+        <Route path="/writer" element={<JsonWriter />}/>
+        {/* JSON Stringfy END */}
       </Routes>
     </Router>
   </>
