@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function UploadVideo()
 {
@@ -23,6 +23,8 @@ export default function UploadVideo()
         localStorage.setItem('videoFileName', videoFile.name)
 
         localStorage.setItem('imageFileName', imageFile.name)
+
+        localStorage.setItem("imageFileUrl", URL.createObjectURL(imageFile))
     
     }
 
