@@ -7,12 +7,12 @@ export default {
       "./index.html",
       "./src/**/*.{js,ts,jsx,tsx}",
     ],
-    extract, // Extract Tailwind classes using fluid-tailwind's extractor
+    extract, 
   },
   theme: {
-    extend: {}, // You can still extend your theme here if needed
+    extend: {}, 
   },
   plugins: [
-    fluid, // Adds fluid plugin to handle fluid typography and spacing
+    fluid, 
   ],
 };
