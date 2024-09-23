@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function UploadVideo()
 {
@@ -7,6 +8,7 @@ export default function UploadVideo()
     const [ videoTitle, setVideoTitle] = useState("")
     const [ descritption, setDescription] = useState("")
 
+    const navigate = useNavigate()
 
     const addForm = () => {
 
@@ -24,10 +26,16 @@ export default function UploadVideo()
 
         localStorage.setItem('imageFileName', imageFile.name)
 
+        
+        navigate('/stream')
+        
+    }
+
+    if(imageFile) {
+    
         localStorage.setItem("imageFileUrl", URL.createObjectURL(imageFile))
     
     }
-
     return <div className="flex gap-5"> 
     
     <div className="flex w-full flex-col gap-4">

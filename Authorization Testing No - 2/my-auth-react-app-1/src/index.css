@@ -32,3 +32,36 @@ body
   border-radius: 30px;
   color: gray;
 }
+
+.fluid-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 2rem;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* py-5 equivalent */
+}
+
+.fluid-container img
+{
+  border-radius: 15px;
+}
+
+/* For medium screens and up */
+@media (min-width: 768px) {
+  .fluid-container {
+    padding-left: 6rem;
+    /* ~md:px-6 equivalent */
+    padding-right: 6rem;
+  }
+}
+
+/* For 2xl screens and up */
+@media (min-width: 1536px) {
+  .fluid-container {
+    padding-left: 16rem;
+    /* 2xl:~px-52 equivalent */
+    padding-right: 16rem;
+  }
+}

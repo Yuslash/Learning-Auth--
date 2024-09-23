@@ -9,11 +9,12 @@ export default function StreamPage()
 
     console.log(thumnail);
 
-    return <div className="flex flex-col gap-4">
+    return <div className="fluid-container">
+     <div className="flex flex-col gap-4">
         
         <h1>This is StreamPage</h1>
         
-        <div className="w-full h-[600px] bg-slate-500 rounded">
+        <div className="w-full h-[600px]  rounded">
             <img 
             src={thumnail}
             className=" w-full h-full object-cover rounded"
@@ -21,5 +22,6 @@ export default function StreamPage()
         </div>
             <p className="text-2xl font-semibold">{title}</p>
             <p className="text-xl">{description}</p>
+    </div>
     </div>
 }
