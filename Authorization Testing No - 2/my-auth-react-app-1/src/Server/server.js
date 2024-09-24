@@ -18,7 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.post('/upload', upload.single('file'), (req, res) => 
+app.post('/upload', upload.single('imageFile'), (req, res) => 
 {
     const { title, description } = req.body
     const id = Date.now()
