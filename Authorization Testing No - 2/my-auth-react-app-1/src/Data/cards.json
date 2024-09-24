@@ -1,52 +1,32 @@
 [
-
-    {
-        "id": 1,
-        "title" : "card 1",
-        "description" : "this is card 1",
-        "image" : "/wallpaper.png"
-    },
-    {
-        "id" : 2,
-        "title" : "card 2",
-        "description" : "this is card 2",
-        "image" : "/stream.png"
-    },
-    {
-        "id": 3,
-        "title": "card 3",
-        "description": "this is card 3",
-        "image": "/wallpaper.png"
-    },
-    {
-        "id": 4,
-        "title": "card 4",
-        "description": "this is card 4",
-        "image": "/stream.png"
-    },
-    {
-        "id": 5,
-        "title": "card 5",
-        "description": "this is card 5",
-        "image": "/wallpaper.png"
-    },
-    {
-        "id": 6,
-        "title": "card 6",
-        "description": "this is card 6",
-        "image": "/stream.png"
-    },
-    {
-        "id": 7,
-        "title": "card 7",
-        "description": "this is card 7",
-        "image": "/wallpaper.png"
-    },
-    {
-        "id": 8,
-        "title": "card 8",
-        "description": "this is card 8",
-        "image": "/stream.png"
-    }
-
+  {
+    "id": 1727189431261,
+    "title": "try 3 title",
+    "description": "try 3 descriptioin",
+    "imageFile": "/original-b880c5a9303216e6e468d03140ce4946.png"
+  },
+  {
+    "id": 1727189778846,
+    "title": "try 4 Its working",
+    "description": "Lets go mate its working on try 4 Fixed the error",
+    "imageFile": "/Main body.png"
+  },
+  {
+    "id": 1727189841039,
+    "title": "this is card 3",
+    "description": "This is card descriptoin",
+    "imageFile": "/image 2.png"
+  },
+  {
+    "id": 1727189863000,
+    "title": "this is card 4 title",
+    "description": "this is card 4 description how areyo u guys",
+    "imageFile": "/images (4).jpeg"
+  },
+  {
+    "id": 1727189874673,
+    "title": "aaasdfas",
+    "description": "fasdfasdfa",
+    "imageFile": "/wallpaper.png"
+  }
 ]
