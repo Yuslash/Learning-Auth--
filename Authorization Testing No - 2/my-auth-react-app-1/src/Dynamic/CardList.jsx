@@ -9,7 +9,7 @@ export default function CardList()
         {CardData.map((card) => (
             <div className="bg-purple-500 p-1 rounded-lg " key={card.id}>
                 <Link to={`/card/${card.id}`}>
-                    <img className="w-[400px] h-[200px] rounded-lg" src={card.image} />
+                    <img className="w-[400px] h-[200px] rounded-lg" src={card.imageFile} />
                 <div className=" flex flex-col px-2 gap-2 mt-2 py-4">
                     <h2 className="text-2xl font-bold">{card.title}</h2>
                     <p className="text-sm font-medium">{card.description}</p>

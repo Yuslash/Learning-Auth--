@@ -20,7 +20,7 @@ export default function CardDetail()
 
     return <> 
         <h1>this is card details page</h1>
-        <img className=" w-[300px] h-auto " src={card.image} alt={card.title} />
+        <img className=" w-[300px] h-auto " src={card.imageFile} alt={card.title} />
         <h1>{card.title}</h1>
         <p>{card.description}</p>
         <button onClick={navi} className="p-4 bg-amber-300 text-black rounded-full mt-5">Back To Home</button>
