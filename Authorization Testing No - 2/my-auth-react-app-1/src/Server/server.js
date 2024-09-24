@@ -1,41 +1,47 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import multer from 'multer'
 import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import cors from 'cors'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const upload = multer({ dest: 'uploads/' })
 
 dotenv.config()
-
-const app = express()
-app.use(express.json())
-
 const port = process.env.PORT || 5000
+const app = express()
 
-app.get('/data', (req, res) => 
+app.use(express.json())
+app.use(cors())
+
+app.post('/upload', upload.single('file'), (req, res) => 
 {
-    fs.readFile('Data.json', 'utf8', (err, data) => 
+    const { title, description } = req.body
+    const id = Date.now()
+
+    const jsonData = {
+        id, 
+        title, 
+        description,
+        imageFile: req.file ? req.file.filename : null
+    }
+
+    fs.writeFile(path.join(__dirname, 'data.json'), JSON.stringify(jsonData, null, 2), (err) => 
     {
-        const jsonData = JSON.parse(data)
-
-        res.json(jsonData)
+        if(err) {
+            res.status(500).send('Failed to save the data')
+        } else {
+            res.status(200).send('Uploaded Successfully!')
+        }
     })
-})
 
-app.post('/data', (req, res) => 
-{
-    const newEntry = req.body
-
-    fs.writeFile('Data.json', 'utf8', (err, data) =>
-    {
-        const jsonData = JSON.parse(data)
-
-        jsonData.push(newEntry)
-
-        fs.writeFile('Data.json', JSON.stringify(jsonData, null, 2), () => {
-            res.status(201).send(newEntry)
-        })
-    })
 })
 
 app.listen(port, () => 
 {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 })
