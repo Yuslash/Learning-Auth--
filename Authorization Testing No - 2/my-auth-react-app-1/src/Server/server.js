@@ -18,6 +18,12 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+const filePath = path.join(__dirname, 'data.json')
+
+if(!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, JSON.stringify([]))
+}
+
 app.post('/upload', upload.single('imageFile'), (req, res) => 
 {
     const { title, description } = req.body
@@ -30,7 +36,26 @@ app.post('/upload', upload.single('imageFile'), (req, res) =>
         imageFile: req.file ? req.file.filename : null
     }
 
-    fs.writeFile(path.join(__dirname, 'data.json'), JSON.stringify(jsonData, null, 2), (err) => 
+    let existingData = []
+
+    const fileData = fs.readFileSync(filePath, 'utf8')
+
+    try {
+        existingData = JSON.parse(fileData)
+
+        if(!Array.isArray(existingData)) {
+            existingData = []
+        }
+    } catch (error) {
+
+        console.log('Error parsing error', error);
+        existingData = []
+
+    }
+
+    existingData.push(jsonData)
+
+    fs.writeFile(path.join(__dirname, 'data.json'), JSON.stringify(existingData, null, 2), (err) => 
     {
         if(err) {
             res.status(500).send('Failed to save the data')
