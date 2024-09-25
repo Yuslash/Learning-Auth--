@@ -30,6 +30,7 @@ export default function Login()
             const token = import.meta.env.VITE_API_TOKEN
 
             localStorage.setItem('authToken', token)
+            localStorage.setItem('username', data.username)
         
         } else {
             alert(data.message)
