@@ -9,6 +9,21 @@ import cors from 'cors'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// let username = []
+
+// Object.values(localStorage).some((storedUser) =>
+// {
+//     const data = JSON.parse(storedUser)
+
+//     const user = data.username
+
+//     if(data && user) {
+//         username.push(user)
+//     } else {
+//         console.log('there is no username please Signup or login');
+//     }
+// })
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/')

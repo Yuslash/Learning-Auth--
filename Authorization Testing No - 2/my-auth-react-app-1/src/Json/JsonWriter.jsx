@@ -2,6 +2,8 @@ import { useState } from "react"
 
 export default function JsonWriter() {
     const [imageFile, setImageFile] = useState(null)
+    const [ previewImage, setPreviewImage] = useState(null)
+    const [videoFile, setVideoFile] = useState(null)
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
 
@@ -23,10 +25,21 @@ export default function JsonWriter() {
             })
 
             if (response.ok) {
+
+                const contentType = response.headers.get("content-type")
+                let data
+
+                if (contentType && contentType.includes("application/json")) {
+                    data = await response.json()
+                } else {
+                    data = await response.text() // Fallback for plain text responses
+                }
+                
                 console.log('Data saved successfully')
                 setTitle("")
                 setDescription("")
                 setImageFile(null)
+                setPreviewImage(`http://localhost:3000/public/${data.imageFile}`)
             } else {
                 console.error('Failed to save data:', response.statusText)
             }
@@ -36,16 +49,29 @@ export default function JsonWriter() {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex gap-2">
+        <div className="flex flex-col gap-4 w-full">
             <h1>This is the JSON Writer page</h1>
-
+            <div className=" flex gap-2">
             <input
                 type="file"
                 accept="image/*"
-                className="p-2 bg-amber-500 rounded"
-                onChange={(e) => setImageFile(e.target.files[0])}
+                className="p-2 bg-amber-500 rounded w-full"
+                onChange={(e) => {
+                    const file = e.target.files[0]
+                    setImageFile(file)
+                    setPreviewImage(URL.createObjectURL(file))
+                }}
                 required
             />
+            <input
+                type="file"
+                accept="video/*"
+                className="p-2 bg-violet-500 rounded w-full"
+                onChange={(e) => setVideoFile(e.target.files[0])}
+                required
+            />
+            </div>
 
             <input
                 type="text"
@@ -66,10 +92,26 @@ export default function JsonWriter() {
 
             <button
                 onClick={handleSubmit}
-                className="p-4 bg-violet-600 rounded font-medium text-2xl"
+                className="p-4 bg-violet-600 rounded font-medium text-xl text-black"
             >
                 Submit
             </button>
+        </div>
+            <div className="flex flex-col w-full gap-4">
+                <h1>Preview Page</h1>
+
+                {imageFile ? (
+                    <div className=" w-full h-[300px] rounded overflow-hidden ">
+                        <img
+                            src={previewImage}
+                            className=" w-full h-full object-cover"
+                        />
+                    </div>
+                ) : <div className=" flex w-full h-[300px] rounded p-4 bg-slate-400">THUMBNAIL</div>}
+
+                <p className=" text-2xl font-bold">{title}</p>
+                <p className=" text-md">{description}</p>
+            </div>
         </div>
     )
 }
