@@ -5,6 +5,7 @@ export default function Protected()
 {
     
     const [ isAuthenticated , setIsAuthenticated] = useState(false)
+    const [ username, setUsername] = useState("")
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,6 +17,8 @@ export default function Protected()
         if(token && token === expectedToken) {
 
             setIsAuthenticated(true)
+            const storedUsername = localStorage.getItem('username')
+            setUsername(storedUsername)
 
         } else {
             navigate('/signup')
@@ -26,8 +29,7 @@ export default function Protected()
     return (
         <>
             { isAuthenticated ? (
-                <h2 className=" text-4xl text-white">This is protected page</h2>
-
+                <h2 className=" text-4xl text-white">Welcome {username}</h2>
             ) : null }
         </>
     )
