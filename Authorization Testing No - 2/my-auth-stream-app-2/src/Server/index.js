@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { MongoClient } from 'mongodb'
 import bcrypt from 'bcrypt'
 import cors from 'cors'
+import multer from 'multer'
 
 dotenv.config()
 const port = process.env.PORT
@@ -18,7 +19,18 @@ app.get('/', (req, res) => {
     res.send('API is Running...')
 })
 
-app.post('/auth', async (req,res) => 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage })
+
+app.post('/auth',  async (req,res) => 
 {
     const { username, password } = req.body
 
@@ -40,8 +52,16 @@ app.post('/auth', async (req,res) =>
     await usersCollection.insertOne(newUser)
 
     
-    const userCollection = database.collection(username)
-    await userCollection.insertOne({ message: 'User Data Initialized' })
+    const userCollection = database.collection('cardlist')
+
+    const timestamp = Date.now()
+
+    const date = new Date(timestamp)
+
+    const formattedDate = date.toLocaleString()
+
+
+    await userCollection.insertOne({ UserLog: `userLoggedAt ${formattedDate}` })
 
     res.status(201).json({ username })
 
@@ -68,6 +88,33 @@ app.post('/login', async(req,res) =>
         res.status(404).json({ message : 'User not found' })
     }
 })
+
+app.post('/upload', upload.single('imageFile'), async (req, res) =>
+{
+
+    const database = client.db('prisma')
+
+    const collection = database.collection('cardlist')
+    
+    const { title, description } = req.body
+    const { imageFile } = req.file ? req.file.filename : null
+
+    const id = Date.now()
+
+    const jsonData = {
+        id,
+        title,
+        description,
+        imageFile
+    }
+
+    await collection.insertOne({ message: 'User Data Initialized', jsonData })
+
+    res.status(200).json({ message: 'User Data Initialized', jsonData })
+
+})
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
