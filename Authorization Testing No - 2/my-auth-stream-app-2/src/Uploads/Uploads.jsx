@@ -60,6 +60,7 @@ export default function Uploads()
         formData.append('title', title)
         formData.append('description', description)
         formData.append('imageFile', imageFile)
+        formData.append('username', username)
 
         try {
 

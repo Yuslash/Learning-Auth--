@@ -96,10 +96,10 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 {
 
     const database = client.db('prisma')
-
     const collection = database.collection('cardlist')
+    const mainstreamCollection = database.collection('mainstream')
     
-    const { title, description } = req.body
+    const { title, description, username } = req.body
     const imageFile = req.file ? req.file.filename : null
 
     const id = Date.now()
@@ -108,52 +108,72 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         id,
         title,
         description,
-        imageFile
+        imageFile,
+        username
     }
 
     await collection.insertOne(jsonData)
+    await mainstreamCollection.insertOne(jsonData)
 
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
     //Export the collection to a JSON file
     const data = await collection.find({}).toArray()
     const outputFileName = path.join(__dirname, 'cards.json')
     fs.writeFileSync(outputFileName, JSON.stringify(data, null,2), 'utf-8')
 
+    const mainstreamData = await mainstreamCollection.find({}).toArray()
+    const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json')
+    fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(mainstreamData, null, 2), 'utf-8')
+
     res.status(200).json({ message: 'User Data Initialized', jsonData })
 
 })
 
 app.delete('/card/:id', async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
 
     try {
-        const database = client.db('prisma')
-        const collection = database.collection('cardlist')
+        const database = client.db('prisma');
+        const collection = database.collection('cardlist');
+        const mainstreamCollection = database.collection('mainstream');
 
-        // Delete the document using the custom id field
-        const result = await collection.deleteOne({ id: parseInt(id, 10) }) // Convert the id to a number
+        const resultCardList = await collection.deleteOne({ id: parseInt(id, 10) });
 
-        if (result.deletedCount === 1) {
-            res.status(200).json({ message: 'Document deleted successfully' })
+        if (resultCardList.deletedCount === 1) {
+            const resultMainstream = await mainstreamCollection.deleteOne({ id: parseInt(id, 10) });
+
+            if (resultMainstream.deletedCount === 1) {
+                console.log('Document deleted from mainstream as well');
+            } else {
+                console.log('Document not found in mainstream');
+            }
+
+            // Correctly use __dirname to write the JSON files
+            const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+            // Update cards.json with the new cardlist data
+            const updatedCardlistData = await collection.find({}).toArray();
+            const cardListOutputFileName = path.join(__dirname, 'cards.json');
+            fs.writeFileSync(cardListOutputFileName, JSON.stringify(updatedCardlistData, null, 2), 'utf-8');
+
+            // Update mainstream.json with the new mainstream data
+            const updatedMainstreamData = await mainstreamCollection.find({}).toArray();
+            const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json');
+            fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(updatedMainstreamData, null, 2), 'utf-8');
+
+            // Respond with success message
+            res.status(200).json({ message: 'Document deleted successfully from both cardlist and mainstream' });
         } else {
-            res.status(404).json({ message: 'Document not found' })
+            res.status(404).json({ message: 'Document not found in cardlist' });
         }
 
-        const __filename = fileURLToPath(import.meta.url)
-        const __dirname = path.dirname(__filename)
-
-        //Export the collection to a JSON file
-        const data = await collection.find({}).toArray()
-        const outputFileName = path.join(__dirname, 'cards.json')
-        fs.writeFileSync(outputFileName, JSON.stringify(data, null, 2), 'utf-8')
-
     } catch (error) {
-        console.error(error)
-        res.status(500).json({ message: 'An error occurred while deleting the document' })
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while deleting the document' });
     }
-})
+});
+
 
 
 app.listen(port, () => {
