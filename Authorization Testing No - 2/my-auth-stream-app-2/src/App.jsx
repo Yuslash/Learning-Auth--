@@ -6,6 +6,7 @@ import Uploads from "./Uploads/Uploads"
 import CardList from "./Page/CardList"
 import AnimationTest from "./Animations/AnimationTest"
 import CardDetail from "./Page/CardDetail"
+import CardSet from "./Server/CardSet"
 
 export default function App()
 {
@@ -17,6 +18,7 @@ export default function App()
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Uploads />} />
         <Route path="/list" element={<CardList />} />
+        <Route path="/set" element={<CardSet />} />
         <Route path="/anima" element={<AnimationTest />} />
         <Route path="/card/:id" element={<CardDetail />} />
       </Routes>
