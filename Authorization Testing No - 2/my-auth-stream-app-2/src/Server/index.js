@@ -125,6 +125,37 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 
 })
 
+app.delete('/card/:id', async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const database = client.db('prisma')
+        const collection = database.collection('cardlist')
+
+        // Delete the document using the custom id field
+        const result = await collection.deleteOne({ id: parseInt(id, 10) }) // Convert the id to a number
+
+        if (result.deletedCount === 1) {
+            res.status(200).json({ message: 'Document deleted successfully' })
+        } else {
+            res.status(404).json({ message: 'Document not found' })
+        }
+
+        const __filename = fileURLToPath(import.meta.url)
+        const __dirname = path.dirname(__filename)
+
+        //Export the collection to a JSON file
+        const data = await collection.find({}).toArray()
+        const outputFileName = path.join(__dirname, 'cards.json')
+        fs.writeFileSync(outputFileName, JSON.stringify(data, null, 2), 'utf-8')
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'An error occurred while deleting the document' })
+    }
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
