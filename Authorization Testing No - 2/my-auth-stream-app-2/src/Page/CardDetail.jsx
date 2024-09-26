@@ -1,24 +1,30 @@
 import { useNavigate, useParams } from "react-router-dom"
 import cardData from '../Server/cards.json'
 import { useEffect, useState } from "react"
+import AnimationTest from "../Animations/AnimationTest"
+import gameAnimation from '../Animations/game.json'
 
 
 export default function CardDetail() {
+
     const { id } = useParams()
     const [ username, setUsername] = useState("")
+    const [loading, setLoading] = useState(true)
 
     const card = cardData.find((c) => c.id === parseInt(id))
 
-    if (!card) {
-        return <p>Card Not Found</p>
-    }
-
     useEffect(() => 
-    {
-
+    {   
         const user = localStorage.getItem('username')
         setUsername(user)
 
+        const timer = setTimeout(() => 
+        {
+            setLoading(false)
+
+        }, 1000)
+
+        return () => clearTimeout(timer)
     },[])
 
     const navigate = useNavigate()
@@ -43,7 +49,9 @@ export default function CardDetail() {
         navi()
     }
 
-
+    if (loading) {
+        return <AnimationTest />
+    }
 
     return <>
         <div className="flex justify-between">

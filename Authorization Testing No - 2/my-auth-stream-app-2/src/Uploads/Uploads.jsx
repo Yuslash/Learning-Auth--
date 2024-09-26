@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import AnimationTest from "../Animations/AnimationTest"
 
 export default function Uploads() 
 {
@@ -8,10 +9,25 @@ export default function Uploads()
     const [description, setDescription ] = useState("")
     const [imageFile, setImageFile] = useState(null)
     const [isAuthenticated , setIsAuthenticated] = useState(false)
+    const [ loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
+    useEffect(() =>
+    {
+        const timer = setTimeout(() => {
+            setLoading(false)
+
+        }, 2000)
+
+        return () => clearTimeout(timer)
+
+    }, [])
+
+   
+    
     useEffect(() => 
     {
+
         const token = localStorage.getItem('authToken')
         const user = localStorage.getItem('username')
         const Execptedtoken = import.meta.env.VITE_API_TOKEN
@@ -27,6 +43,10 @@ export default function Uploads()
         }
 
     },[navigate])
+
+    if (loading) {
+        return <AnimationTest />
+    }
 
     const addUser = async () =>
     {

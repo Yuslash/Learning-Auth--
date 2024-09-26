@@ -1,24 +1,47 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import CardData from '../Server/cards.json'
 import { useEffect, useState } from "react"
+import AnimationTest from "../Animations/AnimationTest"
 
 export default function CardList() {
 
     const [ username, setUsername ] = useState("")
-
+    const [ loading, setLoading ] = useState(true)
+    const navigate = useNavigate()
+    
+    
     useEffect(() => 
-    {
-
+    {  
         const user = localStorage.getItem('username')
 
         setUsername(user)
+        
+        const timer = setTimeout(() =>
+        {
+            setLoading(false)
+        }, 2000)
 
+        return () => clearTimeout(timer)
+        
     },[])
+    
+    if (loading) {
+        return <AnimationTest />
+    }
+
+    const reUpload = () => {
+        
+        navigate('/upload')
+    
+    }
+    
+    
 
     return <div className=" flex flex-col px-[40px] sm:px-[0px]">
     <div className=" flex justify-between font-semibold text-xl">
             <h1 className="text-4xl font-semibold text-yellow-400">this is card list page</h1>
-            <div className="flex">
+            <div className="flex gap-2 items-center">
+                <button onClick={reUpload} className=" bg-orange-200 rounded-full py-2 hover:bg-orange-100 px-4">Upload</button>
                 <p className=" text-white">User:  <span className=" text-red-300">{username}</span></p>
             </div>
     </div>
