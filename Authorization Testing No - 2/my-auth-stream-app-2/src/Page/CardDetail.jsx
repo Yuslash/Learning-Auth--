@@ -1,15 +1,25 @@
 import { useNavigate, useParams } from "react-router-dom"
 import cardData from '../Server/cards.json'
+import { useEffect, useState } from "react"
 
 
 export default function CardDetail() {
     const { id } = useParams()
+    const [ username, setUsername] = useState("")
 
     const card = cardData.find((c) => c.id === parseInt(id))
 
     if (!card) {
         return <p>Card Not Found</p>
     }
+
+    useEffect(() => 
+    {
+
+        const user = localStorage.getItem('username')
+        setUsername(user)
+
+    },[])
 
     const navigate = useNavigate()
 
@@ -36,7 +46,13 @@ export default function CardDetail() {
 
 
     return <>
-        <h1>this is card details page</h1>
+        <div className="flex justify-between">
+            <h1>this is card details page</h1>
+            <div className="flex gap-2">
+                <h1 className=" text-xl font-semibold text-white tracking-normal">User:</h1>
+                <p className=" text-xl font-semibold text-red-300 tracking-normal">{username}</p>
+            </div>
+        </div>
         <img className=" w-[300px] h-auto" src={card.imageFile} alt={card.title} />
         <h1>{card.title}</h1>
         <p>{card.description}</p>

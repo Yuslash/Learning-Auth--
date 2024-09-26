@@ -1,9 +1,27 @@
 import { Link } from "react-router-dom"
 import CardData from '../Server/cards.json'
+import { useEffect, useState } from "react"
 
 export default function CardList() {
+
+    const [ username, setUsername ] = useState("")
+
+    useEffect(() => 
+    {
+
+        const user = localStorage.getItem('username')
+
+        setUsername(user)
+
+    },[])
+
     return <div className=" flex flex-col px-[40px] sm:px-[0px]">
-        <h1 className="text-4xl font-semibold text-yellow-400">this is card list page</h1>
+    <div className=" flex justify-between font-semibold text-xl">
+            <h1 className="text-4xl font-semibold text-yellow-400">this is card list page</h1>
+            <div className="flex">
+                <p className=" text-white">User:  <span className=" text-red-300">{username}</span></p>
+            </div>
+    </div>
         <div className=" flex flex-wrap gap-5 justify-center mt-8">
             {CardData.map((card) => (
                 <div className="bg-purple-500 p-1 rounded-lg " key={card.id}>
