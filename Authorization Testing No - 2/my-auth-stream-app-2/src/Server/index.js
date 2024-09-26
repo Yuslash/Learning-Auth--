@@ -96,10 +96,10 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 {
 
     const database = client.db('prisma')
-    const collection = database.collection('cardlist')
     const mainstreamCollection = database.collection('mainstream')
     
     const { title, description, username } = req.body
+    const collection = database.collection(`${username}`)
     const imageFile = req.file ? req.file.filename : null
 
     const id = Date.now()
@@ -119,7 +119,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 
     //Export the collection to a JSON file
     const data = await collection.find({}).toArray()
-    const outputFileName = path.join(__dirname, 'cards.json')
+    const outputFileName = path.join(__dirname, `${username}.json`)
     fs.writeFileSync(outputFileName, JSON.stringify(data, null,2), 'utf-8')
 
     const mainstreamData = await mainstreamCollection.find({}).toArray()
@@ -132,10 +132,11 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 
 app.delete('/card/:id', async (req, res) => {
     const { id } = req.params;
+    const { username } =req.body
 
     try {
         const database = client.db('prisma');
-        const collection = database.collection('cardlist');
+        const collection = database.collection(`${username}`);
         const mainstreamCollection = database.collection('mainstream');
 
         const resultCardList = await collection.deleteOne({ id: parseInt(id, 10) });
@@ -154,7 +155,7 @@ app.delete('/card/:id', async (req, res) => {
 
             // Update cards.json with the new cardlist data
             const updatedCardlistData = await collection.find({}).toArray();
-            const cardListOutputFileName = path.join(__dirname, 'cards.json');
+            const cardListOutputFileName = path.join(__dirname, `${username}`);
             fs.writeFileSync(cardListOutputFileName, JSON.stringify(updatedCardlistData, null, 2), 'utf-8');
 
             // Update mainstream.json with the new mainstream data
