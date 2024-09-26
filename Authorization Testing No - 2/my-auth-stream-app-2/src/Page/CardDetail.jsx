@@ -36,17 +36,22 @@ export default function CardDetail() {
 
     const deleteCard = async () => {
 
-        await fetch(`http://localhost:3000/card/${card.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        const confirmDelete = window.confirm("Are you sure you want to delete this card?")
 
-        alert('this is card is Deleted')
+        if(confirmDelete) {
+            await fetch(`http://localhost:3000/card/${card.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        
+            alert('this is card is Deleted')
+            navi()
+        }
+
 
         // Navigate back to the list after deletion
-        navi()
     }
 
     if (loading) {

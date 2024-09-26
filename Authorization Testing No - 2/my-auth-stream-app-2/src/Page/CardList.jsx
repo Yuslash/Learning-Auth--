@@ -40,14 +40,14 @@ export default function CardList() {
     return <div className=" flex flex-col px-[40px] sm:px-[0px]">
     <div className=" flex justify-between font-semibold text-xl">
             <h1 className="text-4xl font-semibold text-yellow-400">this is card list page</h1>
-            <div className="flex gap-2 items-center">
-                <button onClick={reUpload} className=" bg-orange-200 rounded-full py-2 hover:bg-orange-100 px-4">Upload</button>
+            <div className="flex gap-3 items-center">
+                <button onClick={reUpload} className=" bg-orange-200 rounded-full py-3 text-sm hover:bg-orange-100 px-4">Upload</button>
                 <p className=" text-white">User:  <span className=" text-red-300">{username}</span></p>
             </div>
     </div>
         <div className=" flex flex-wrap gap-5 justify-center mt-8">
             {CardData.map((card) => (
-                <div className="bg-purple-500 p-1 rounded-lg " key={card.id}>
+                <div className="bg-purple-500 p-1 text-white rounded-lg " key={card.id}>
                     <Link to={`/card/${card.id}`}>
                         <img className="w-[400px] h-[200px] rounded-lg" src={card.imageFile} />
                         <div className=" flex flex-col px-2 gap-2 mt-2 py-4">
