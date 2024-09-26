@@ -4,6 +4,9 @@ import { MongoClient } from 'mongodb'
 import bcrypt from 'bcrypt'
 import cors from 'cors'
 import multer from 'multer'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 dotenv.config()
 const port = process.env.PORT
@@ -24,7 +27,7 @@ const storage = multer.diskStorage({
         cb(null, 'public/')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, `/${file.originalname}`)
     }
 })
 
@@ -52,16 +55,16 @@ app.post('/auth',  async (req,res) =>
     await usersCollection.insertOne(newUser)
 
     
-    const userCollection = database.collection('cardlist')
+    // const userCollection = database.collection('cardlist')
 
-    const timestamp = Date.now()
+    // const timestamp = Date.now()
 
-    const date = new Date(timestamp)
+    // const date = new Date(timestamp)
 
-    const formattedDate = date.toLocaleString()
+    // const formattedDate = date.toLocaleString()
 
 
-    await userCollection.insertOne({ UserLog: `userLoggedAt ${formattedDate}` })
+    // await userCollection.insertOne({ UserLog: `userLoggedAt ${formattedDate}` })
 
     res.status(201).json({ username })
 
@@ -97,7 +100,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     const collection = database.collection('cardlist')
     
     const { title, description } = req.body
-    const { imageFile } = req.file ? req.file.filename : null
+    const imageFile = req.file ? req.file.filename : null
 
     const id = Date.now()
 
@@ -108,13 +111,19 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         imageFile
     }
 
-    await collection.insertOne({ message: 'User Data Initialized', jsonData })
+    await collection.insertOne(jsonData)
+
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+
+    //Export the collection to a JSON file
+    const data = await collection.find({}).toArray()
+    const outputFileName = path.join(__dirname, 'cards.json')
+    fs.writeFileSync(outputFileName, JSON.stringify(data, null,2), 'utf-8')
 
     res.status(200).json({ message: 'User Data Initialized', jsonData })
 
 })
-
-
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
