@@ -33,8 +33,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-
-
 app.post('/auth',  async (req,res) => 
 {
     const { username, password } = req.body
@@ -94,6 +92,20 @@ app.post('/login', async(req,res) =>
     }
 })
 
+app.get('/data',async (req, res) =>
+{
+
+    const { useranme } = req.body
+
+    const database = client.db('prisma')
+    const collection = database.collection('mainstream')
+
+    const data = await collection.find({}).toArray()
+
+    res.status(200).json(data)
+
+})
+
 app.post('/upload', upload.single('imageFile'), async (req, res) =>
 {
 
@@ -131,27 +143,6 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     res.status(200).json({ message: 'User Data Initialized', jsonData })
 
 })
-
-app.get('/data/:username', async (req, res) => {
-    const { username } = req.params
-
-    const database = client.db('prisma')
-    const collection = database.collection(`${username}`)
-    const mainstreamCollection = database.collection('mainstream')
-
-    try {
-        // Fetch user-specific data
-        const userData = await collection.find({}).toArray()
-
-        // Fetch mainstream data
-        const mainstreamData = await mainstreamCollection.find({}).toArray()
-
-        res.status(200).json({ userData, mainstreamData })
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching data', error: error.message })
-    }
-})
-
 
 app.delete('/card/:id', async (req, res) => {
     const { id } = req.params;

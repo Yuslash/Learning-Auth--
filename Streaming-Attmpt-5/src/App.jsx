@@ -7,7 +7,6 @@ import CardList from "./Page/CardList"
 import AnimationTest from "./Animations/AnimationTest"
 import CardDetail from "./Page/CardDetail"
 
-
 export default function App()
 {
   return (
