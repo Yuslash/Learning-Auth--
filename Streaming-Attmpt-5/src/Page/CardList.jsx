@@ -15,7 +15,7 @@ export default function CardList() {
         {
             try {
 
-                const response = await fetch('http://localhost:5173/src/Server/admin.json')
+                const response = await fetch(`http://localhost:5173/src/Server/${user}.json`)
                 const data = await response.json()
                 setUserData(data)
 
