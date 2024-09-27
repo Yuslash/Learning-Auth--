@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import cardData from '../Server/cards.json'
+// import cardData from '../Server/cards.json'
 import { useEffect, useState } from "react"
 import AnimationTest from "../Animations/AnimationTest"
 import gameAnimation from '../Animations/game.json'

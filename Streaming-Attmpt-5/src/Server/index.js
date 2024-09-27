@@ -145,51 +145,65 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 })
 
 app.delete('/card/:id', async (req, res) => {
-    const { id } = req.params;
-    const { username } =req.body
+    const { id } = req.params
 
     try {
-        const database = client.db('prisma');
-        const collection = database.collection(`${username}`);
-        const mainstreamCollection = database.collection('mainstream');
+        const database = client.db('prisma')
+        const adminCollection = database.collection('admin')
+        const mainstreamCollection = database.collection('mainstream')
 
-        const resultCardList = await collection.deleteOne({ id: parseInt(id, 10) });
+        const parsedId = parseInt(id, 10)  // Parse the ID
 
-        if (resultCardList.deletedCount === 1) {
-            const resultMainstream = await mainstreamCollection.deleteOne({ id: parseInt(id, 10) });
+        // Delete the card from the admin collection
+        const resultAdmin = await adminCollection.deleteOne({ id: parsedId })
+
+        if (resultAdmin.deletedCount === 1) {
+            // Delete the card from the mainstream collection
+            const resultMainstream = await mainstreamCollection.deleteOne({ id: parsedId })
 
             if (resultMainstream.deletedCount === 1) {
-                console.log('Document deleted from mainstream as well');
+                console.log('Document deleted from mainstream database as well')
+
+                // Update the mainstream.json file
+                const __dirname = path.dirname(fileURLToPath(import.meta.url))
+                const mainstreamFilePath = path.join(__dirname, 'mainstream.json')
+
+                // Read the current data from the mainstream.json file
+                const mainstreamData = JSON.parse(fs.readFileSync(mainstreamFilePath, 'utf-8'))
+
+                // Filter out the deleted card
+                const updatedMainstreamData = mainstreamData.filter(card => card.id !== parsedId)
+
+                // Write the updated data back to mainstream.json
+                fs.writeFileSync(mainstreamFilePath, JSON.stringify(updatedMainstreamData, null, 2), 'utf-8')
+
+                console.log('Mainstream file updated')
             } else {
-                console.log('Document not found in mainstream');
+                console.log('Document not found in mainstream database')
             }
 
-            // Correctly use __dirname to write the JSON files
-            const __dirname = path.dirname(fileURLToPath(import.meta.url));
+            // Update the admin.json file
+            const __dirname = path.dirname(fileURLToPath(import.meta.url))
+            const adminFilePath = path.join(__dirname, 'admin.json')
 
-            // Update cards.json with the new cardlist data
-            const updatedCardlistData = await collection.find({}).toArray();
-            const cardListOutputFileName = path.join(__dirname, `${username}`);
-            fs.writeFileSync(cardListOutputFileName, JSON.stringify(updatedCardlistData, null, 2), 'utf-8');
+            // Read the current data from the admin.json file
+            const fileData = JSON.parse(fs.readFileSync(adminFilePath, 'utf-8'))
 
-            // Update mainstream.json with the new mainstream data
-            const updatedMainstreamData = await mainstreamCollection.find({}).toArray();
-            const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json');
-            fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(updatedMainstreamData, null, 2), 'utf-8');
+            // Filter out the deleted card
+            const updatedAdminData = fileData.filter(card => card.id !== parsedId)
 
-            // Respond with success message
-            res.status(200).json({ message: 'Document deleted successfully from both cardlist and mainstream' });
+            // Write the updated data back to admin.json
+            fs.writeFileSync(adminFilePath, JSON.stringify(updatedAdminData, null, 2), 'utf-8')
+
+            res.status(200).json({ message: 'Document deleted successfully from both collections and files' })
         } else {
-            res.status(404).json({ message: 'Document not found in cardlist' });
+            res.status(404).json({ message: 'Document not found in admin collection' })
         }
-
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'An error occurred while deleting the document' });
+        console.error('Error occurred:', error)
+        res.status(500).json({ message: 'An error occurred while deleting the document' })
     }
-});
-
-
+})
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)

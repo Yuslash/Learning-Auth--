@@ -1,29 +1,40 @@
 import { Link, useNavigate } from "react-router-dom"
-import CardData from '../Server/mainstream.json'
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import AnimationTest from "../Animations/AnimationTest"
 
 export default function CardList() {
 
     const [ username, setUsername ] = useState("")
     const [ loading, setLoading ] = useState(true)
+    const [ userData, setUserData] = useState([])
     const navigate = useNavigate()
     
+    const fetchUserData = useCallback( async (user) =>
+    {
+        if(user)
+        {
+            try {
+
+                const response = await fetch('http://localhost:5173/src/Server/admin.json')
+                const data = await response.json()
+                setUserData(data)
+
+            } catch (error){
+                console.error('Failed to fetch Details',error)
+            } finally {
+                setLoading(false)
+            }
+        }
+    })
     
     useEffect(() => 
     {  
-        const user = localStorage.getItem('username')
 
+        const user = localStorage.getItem('username')
+        fetchUserData(user)
         setUsername(user)
         
-        const timer = setTimeout(() =>
-        {
-            setLoading(false)
-        }, 2000)
-
-        return () => clearTimeout(timer)
-        
-    },[])
+    },[fetchUserData])
     
     if (loading) {
         return <AnimationTest />
@@ -46,7 +57,7 @@ export default function CardList() {
             </div>
     </div>
         <div className=" flex flex-wrap gap-5 justify-center mt-8">
-            {CardData.map((card) => (
+            {userData.map((card) => (
                 <div className="bg-purple-500 p-1 text-white rounded-lg " key={card.id}>
                     <Link to={`/card/${card.id}`}>
                         <img className="w-[400px] h-[200px] rounded-lg" src={card.imageFile} />

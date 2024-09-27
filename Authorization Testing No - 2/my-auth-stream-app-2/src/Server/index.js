@@ -119,14 +119,14 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-    //Export the collection to a JSON file
     const data = await collection.find({}).toArray()
-    const outputFileName = path.join(__dirname, `${username}.json`)
-    fs.writeFileSync(outputFileName, JSON.stringify(data, null,2), 'utf-8')
+    const outputFileName = path.join(__dirname, `../../../public/${username}.json`) // Updated path to point to React's public folder
+    fs.writeFileSync(outputFileName, JSON.stringify(data, null, 2), 'utf-8')
 
     const mainstreamData = await mainstreamCollection.find({}).toArray()
-    const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json')
+    const mainstreamOutputFileName = path.join(__dirname, '../../../public/mainstream.json')
     fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(mainstreamData, null, 2), 'utf-8')
+
 
     res.status(200).json({ message: 'User Data Initialized', jsonData })
 
@@ -177,13 +177,13 @@ app.delete('/card/:id', async (req, res) => {
             const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
             // Update cards.json with the new cardlist data
-            const updatedCardlistData = await collection.find({}).toArray();
-            const cardListOutputFileName = path.join(__dirname, `${username}`);
+        const updatedCardlistData = await collection.find({}).toArray();
+            const cardListOutputFileName = path.join(__dirname, `/public/${username}`);
             fs.writeFileSync(cardListOutputFileName, JSON.stringify(updatedCardlistData, null, 2), 'utf-8');
 
             // Update mainstream.json with the new mainstream data
             const updatedMainstreamData = await mainstreamCollection.find({}).toArray();
-            const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json');
+            const mainstreamOutputFileName = path.join(__dirname, '/public/mainstream.json');
             fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(updatedMainstreamData, null, 2), 'utf-8');
 
             // Respond with success message

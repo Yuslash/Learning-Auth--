@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import CardData from '../Server/sibikrishna.json'
+// import CardData from '../Server/sibikrishna.json'
 import { useEffect, useState } from "react"
 import AnimationTest from "../Animations/AnimationTest"
 
