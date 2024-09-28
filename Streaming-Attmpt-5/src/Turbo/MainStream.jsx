@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PopularGames from "./PopularGames"
 import TopStreamer from "./TopStreamer"
+import Uploads from "../Uploads/Uploads"
 
 export default function MainStream()
 {
@@ -45,7 +46,6 @@ export default function MainStream()
     const hotStreamer = userData.filter(item => item.category === "Hot streamer")
     const newStreamer = userData.filter(item => item.category === "New streamer")
     const topClip = userData.filter(item => item.category === "Top clip")
-
 
     return <>
         {isAuthenticated ? (

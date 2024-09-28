@@ -1,4 +1,4 @@
-import { act, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function TopStreamer({ games, hstreamer, nstreamer, topclip })
@@ -32,15 +32,13 @@ export default function TopStreamer({ games, hstreamer, nstreamer, topclip })
                 onClick={() => setActiveCategory('top')}
             >
             Top Streamers
-
             </button>
 
             <button 
                 className={`underline ${activateCategory === 'hot' ? 'font-semibold' : ''}`}
                 onClick={() => setActiveCategory('hot')}
             >
-            Hot streamer
-            
+            Hot streamer         
             </button>
 
             <button

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AnimationTest from "../Animations/AnimationTest"
 
-export default function Uploads() 
-{
+export default function Uploads({ userData }) 
+{   
     const [ username, setUsername ] = useState("")
     const [title, setTitle] = useState("")
     const [description, setDescription ] = useState("")
@@ -11,6 +11,8 @@ export default function Uploads()
     const [isAuthenticated , setIsAuthenticated] = useState(false)
     const [ loading, setLoading] = useState(true)
     const navigate = useNavigate()
+
+    
 
     useEffect(() =>
     {
@@ -84,6 +86,12 @@ export default function Uploads()
         }
 
     }
+
+    const uniqueCategories = userData
+        .filter(item => item.category) 
+        .filter((cat, index, self) =>
+            index === self.findIndex((c) => c.category === cat.category)
+        )
     
     return (  
         <>
@@ -92,8 +100,8 @@ export default function Uploads()
                     <h1 className=" text-2xl font-semibold text-white">Welcome {username} this is Upload-Page</h1>
                     
                     <input 
-                     type="file" 
-                     accept="image/*"
+                    type="file" 
+                    accept="image/*"
                     className=" bg-cyan-400 p-2 rounded" 
                     onChange={(e) => setImageFile(e.target.files[0])} 
                     />
@@ -118,6 +126,14 @@ export default function Uploads()
 
                 </div>
         ) : null}
+
+        {/* categories mapping */}
+
+            {uniqueCategories.map((cat) => (
+            <div key={cat.id}>
+                <h1>{cat.category}</h1>
+            </div>
+        )) }
         </>
     )
 }
