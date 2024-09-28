@@ -132,7 +132,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     const database = client.db('prisma')
     const mainstreamCollection = database.collection('mainstream')
     
-    const { title, description, username } = req.body
+    const { title, description, username, category } = req.body
     const collection = database.collection(`${username}`)
     const imageFile = req.file ? req.file.filename : null
 
@@ -143,7 +143,8 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         title,
         description,
         imageFile,
-        username
+        username,
+        category
     }
 
     await collection.insertOne(jsonData)

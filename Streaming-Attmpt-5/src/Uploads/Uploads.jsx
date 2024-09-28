@@ -10,6 +10,7 @@ export default function Uploads({ userData })
     const [imageFile, setImageFile] = useState(null)
     const [isAuthenticated , setIsAuthenticated] = useState(false)
     const [ loading, setLoading] = useState(true)
+    const [ selectedCategory, setSelectedCategory] = useState("")
     const navigate = useNavigate()
 
     
@@ -52,7 +53,7 @@ export default function Uploads({ userData })
 
     const addUser = async () =>
     {
-        if(!title || !description || !imageFile)
+        if(!title || !description || !imageFile || !selectedCategory)
         {
             alert('All Fields are Required! and select and image ')
             return   
@@ -63,6 +64,7 @@ export default function Uploads({ userData })
         formData.append('description', description)
         formData.append('imageFile', imageFile)
         formData.append('username', username)
+        formData.append('category', selectedCategory)
 
         try {
 
@@ -77,6 +79,7 @@ export default function Uploads({ userData })
                 setTitle("")
                 setDescription("")
                 setImageFile("")
+                setSelectedCategory("")
             }
 
 
@@ -122,18 +125,26 @@ export default function Uploads({ userData })
                     onChange={(e) => setDescription(e.target.value)}
                     />
 
+                    {/* categories mapping */}
+                    <select
+                        className=" p-4 text-black rounded"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    >
+                        <option value="">Select Category</option>
+                        {uniqueCategories.map((cat) => (
+                            <option key={cat.id} value={cat.category}>
+                                {cat.category}
+                            </option>
+                        ))}
+                    </select>
+
                     <button onClick={addUser} className=" bg-amber-400 p-4 rounded">Upload</button>
 
                 </div>
         ) : null}
 
-        {/* categories mapping */}
-
-            {uniqueCategories.map((cat) => (
-            <div key={cat.id}>
-                <h1>{cat.category}</h1>
-            </div>
-        )) }
+        
         </>
     )
 }
