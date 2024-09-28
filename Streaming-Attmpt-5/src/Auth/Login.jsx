@@ -25,7 +25,7 @@ export default function Login()
 
             alert('Login Successful!')
 
-            navigate('/protected')
+            navigate('/main')
 
             const token = import.meta.env.VITE_API_TOKEN
 

@@ -28,7 +28,7 @@ export default function Signup()
 
             alert('User is added', data)
 
-            navigate('/protected')
+            navigate('/main')
             
             const token = import.meta.env.VITE_API_TOKEN
 

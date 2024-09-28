@@ -6,6 +6,7 @@ import Uploads from "./Uploads/Uploads"
 import CardList from "./Page/CardList"
 import AnimationTest from "./Animations/AnimationTest"
 import CardDetail from "./Page/CardDetail"
+import MainStream from "./Turbo/MainStream"
 
 export default function App()
 {
@@ -19,6 +20,7 @@ export default function App()
         <Route path="/list" element={<CardList />} />
         <Route path="/anima" element={<AnimationTest />} />
         <Route path="/card/:id" element={<CardDetail />} />
+        <Route path="main" element={<MainStream />} />
       </Routes>
     </Router>
   )

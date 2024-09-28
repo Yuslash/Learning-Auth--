@@ -13,7 +13,7 @@ export default function CardDetail() {
     const fetchUserData = useCallback(async (user) => {
         if (user) {
             try {
-                const response = await fetch(`http://localhost:5173/src/Server/${user}.json`)
+                const response = await fetch(`http://localhost:5173/src/Server/sample.json`)
                 const data = await response.json()
                 setCardData(data)
             } catch (error) {
@@ -33,7 +33,7 @@ export default function CardDetail() {
     const navigate = useNavigate()
 
     const navi = () => {
-        navigate('/list')
+        navigate('/main')
     }
 
     const deleteCard = async () => {
