@@ -135,8 +135,10 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     const { title, description, username, category } = req.body
     const collection = database.collection(`${username}`)
     const imageFile = req.file ? req.file.filename : null
-
     const id = Date.now()
+
+    const initalViews = 0
+    let postCategory = "New Streamer"
 
     const jsonData = {
         id,
@@ -144,7 +146,8 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         description,
         imageFile,
         username,
-        category
+        views: initalViews,
+        category: postCategory
     }
 
     await collection.insertOne(jsonData)
@@ -199,6 +202,49 @@ app.delete('/card/:id', async (req, res) => {
         res.status(404).json({ message: 'Document not found' })
     }
 })
+
+app.post('/updateViews', async (req, res) => {
+    const { username, postId } = req.body;
+
+    const database = client.db('prisma');
+    const userCollection = database.collection(`${username}`);
+    const mainstreamCollection = database.collection('mainstream');
+
+    const post = await userCollection.findOne({ id: postId });
+
+    // Check if the post exists
+    if (!post) { // Change this line
+        return res.status(404).json({ message: "Post Not Found" }); // Return 404 if not found
+    }
+
+    const updateViews = post.views + 1;
+    let updateCategory = post.category;
+
+    if (updateViews < 100) {
+        updateCategory = 'New Streamer';
+    } else if (updateViews >= 100 && updateViews < 500) {
+        updateCategory = 'Rising Star';
+    } else if (updateViews >= 500) {
+        updateCategory = 'Top Streamer';
+    }
+
+    await userCollection.updateOne({ id: postId }, { $set: { views: updateViews, category: updateCategory } });
+    await mainstreamCollection.updateOne({ id: postId }, { $set: { views: updateViews, category: updateCategory } });
+
+    // Export user collection to JSON
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const userData = await userCollection.find({}).toArray();
+    const userOutputFileName = path.join(__dirname, `${username}.json`);
+    fs.writeFileSync(userOutputFileName, JSON.stringify(userData, null, 2), 'utf-8');
+
+    // Export mainstream collection to JSON
+    const mainstreamData = await mainstreamCollection.find({}).toArray();
+    const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json');
+    fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(mainstreamData, null, 2), 'utf-8');
+
+    res.status(200).json({ message: 'Views updated successfully', data: { views: updateViews, category: updateCategory } });
+});
+    
 
 
 app.listen(port, () => {

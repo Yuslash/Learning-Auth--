@@ -53,7 +53,7 @@ export default function Uploads({ userData })
 
     const addUser = async () =>
     {
-        if(!title || !description || !imageFile || !selectedCategory)
+        if(!title || !description || !imageFile )
         {
             alert('All Fields are Required! and select and image ')
             return   
@@ -64,7 +64,7 @@ export default function Uploads({ userData })
         formData.append('description', description)
         formData.append('imageFile', imageFile)
         formData.append('username', username)
-        formData.append('category', selectedCategory)
+        formData.append('games', selectedCategory)
 
         try {
 
@@ -90,11 +90,7 @@ export default function Uploads({ userData })
 
     }
 
-    const uniqueCategories = userData
-        .filter(item => item.category) 
-        .filter((cat, index, self) =>
-            index === self.findIndex((c) => c.category === cat.category)
-        )
+    const uniqueCategories = [...new Set(userData.map(item => item.games))]
     
     return (  
         <>
@@ -127,14 +123,14 @@ export default function Uploads({ userData })
 
                     {/* categories mapping */}
                     <select
-                        className=" p-4 text-black rounded"
+                        className="p-4 text-black rounded"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
                     >
-                        <option value="">Select Category</option>
-                        {uniqueCategories.map((cat) => (
-                            <option key={cat.id} value={cat.category}>
-                                {cat.category}
+                        <option value="">Select Game</option>
+                        {uniqueCategories.map((game, index) => (
+                            <option key={index} value={game}>
+                                {game}
                             </option>
                         ))}
                     </select>

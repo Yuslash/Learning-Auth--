@@ -13,7 +13,7 @@ export default function CardDetail() {
     const fetchUserData = useCallback(async (user) => {
         if (user) {
             try {
-                const response = await fetch(`http://localhost:5173/src/Server/sample.json`)
+                const response = await fetch(`http://localhost:5173/src/Server/mainstream.json`)
                 const data = await response.json()
                 setCardData(data)
             } catch (error) {
@@ -24,11 +24,45 @@ export default function CardDetail() {
         }
     }, [])
 
+    const updateViews = async () => {
+        if (card) {
+            try {
+
+                await fetch(`http://localhost:3000/updateViews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        postId: card.id
+                    })
+                })
+
+            } catch (error) {
+                console.error('failed to update views', error)
+            }
+        }
+    }
+
+    
+
     useEffect(() => {
         const user = localStorage.getItem('username')
         fetchUserData(user)
         setUsername(user)
+        
     }, [fetchUserData])
+
+    useEffect(() =>{
+
+        if (card) {
+            updateViews()
+        } else {
+            console.log("Failed to Update")
+        }
+
+    }, [card])
 
     const navigate = useNavigate()
 

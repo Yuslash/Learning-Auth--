@@ -8,7 +8,7 @@ export default function Dashboard()
     const fetchUserData = useCallback(async (user) => {
         if (user) {
             try {
-                const response = await fetch(`http://localhost:5173/src/Server/sample.json`)
+                const response = await fetch(`http://localhost:5173/src/Server/${user}.json`)
                 const data = await response.json()
                 setUserData(data)
             } catch (error) {

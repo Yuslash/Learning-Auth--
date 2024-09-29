@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PopularGames from "./PopularGames"
 import TopStreamer from "./TopStreamer"
-import Uploads from "../Uploads/Uploads"
 
 export default function MainStream()
 {
@@ -15,7 +14,7 @@ export default function MainStream()
     {
         if(user){
             try {
-                const response = await fetch(`http://localhost:5173/src/Server/${user}.json`)
+                const response = await fetch(`http://localhost:5173/src/Server/mainstream.json`)
                 const data = await response.json()
                 setUserData(data)
             } catch(error) {
@@ -44,8 +43,10 @@ export default function MainStream()
     const popularGames = userData.filter((items) => items.category === "Popular games")
     const topStreamer = userData.filter(item => item.category === "Top streamer")
     const hotStreamer = userData.filter(item => item.category === "Hot streamer")
-    const newStreamer = userData.filter(item => item.category === "New streamer")
+    const newStreamer = userData.filter(item => item.category === "New Streamer")
     const topClip = userData.filter(item => item.category === "Top clip")
+
+    // console.log(userData);
 
     return <>
         {isAuthenticated ? (
