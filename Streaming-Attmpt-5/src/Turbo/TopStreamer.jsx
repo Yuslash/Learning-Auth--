@@ -58,7 +58,7 @@ export default function TopStreamer({ games, hstreamer, nstreamer, topclip })
         </div>
         <div className=" flex w-full h-[200px] p-2 gap-2 bg-purple-300">
             {activeItems.map((game) => (
-                <Link to={`/card/${game.id}`} key={game.id}>
+                <Link to={`/main/${game.id}`} key={game.id}>
                     <div className=" bg-violet-800 w-full p-2 h-full">
                         <h1>{game.title}</h1>
                         <p>{game.description}</p>

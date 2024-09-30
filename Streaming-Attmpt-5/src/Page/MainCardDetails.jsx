@@ -77,9 +77,9 @@ export default function MainCardDetails() {
             <img className="w-[300px] h-auto" src={card?.imageFile} alt={card?.title || "No title"} />
             <h1>{card?.title}</h1>
             <p>{card?.description}</p>
-            <div className="flex gap-2">
+            <p>Views: {card.views}</p>
+            <p>Username: {card.username}</p>
                 <button onClick={navi} className="p-4 bg-amber-300 text-black rounded-full mt-5">Back To Home</button>
-            </div>
         </>
     )
 }
