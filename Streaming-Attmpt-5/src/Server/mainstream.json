@@ -6,7 +6,57 @@
     "description": "how thisis sometjing",
     "imageFile": "/23.webp",
     "username": "sibikrishna",
-    "views": 9,
+    "views": 26,
     "category": "New Streamer"
+  },
+  {
+    "_id": "66f99c19087c33b78fe79a05",
+    "id": 1727634457319,
+    "title": "upload",
+    "description": "this is upload",
+    "imageFile": "/original-a2d53870635a11a097926df50f5bdd84.png",
+    "username": "sibikrishna",
+    "views": 7,
+    "category": "New Streamer",
+    "viewedBy": [
+      "sibikrishna",
+      null,
+      null,
+      "howareyou",
+      "howso"
+    ]
+  },
+  {
+    "_id": "66f9a4dd93e49134a6d4b8b3",
+    "id": 1727636701629,
+    "title": "this is gamme",
+    "description": "how do ",
+    "imageFile": "/original-8c4897f5e9a2ac99476c60f5458dc1bb.png",
+    "username": "howso",
+    "views": 7,
+    "category": "New Streamer",
+    "viewedBy": [
+      "jayanth",
+      "mentalforcce",
+      "howareyour",
+      "sibikrishna",
+      "this",
+      "howareyou",
+      "howso"
+    ]
+  },
+  {
+    "_id": "66fa8794aab39cf0390dd0b0",
+    "id": 1727694740505,
+    "title": "CountTesting",
+    "description": "thisisCounTesting",
+    "imageFile": "/Screenshot (67).png",
+    "username": "howso",
+    "views": 2,
+    "category": "New Streamer",
+    "viewedBy": [
+      "howso",
+      "sibikrishna"
+    ]
   }
 ]

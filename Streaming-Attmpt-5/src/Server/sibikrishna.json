@@ -6,7 +6,20 @@
     "description": "how thisis sometjing",
     "imageFile": "/23.webp",
     "username": "sibikrishna",
-    "views": 9,
+    "views": 26,
     "category": "New Streamer"
+  },
+  {
+    "_id": "66f99c19087c33b78fe79a05",
+    "id": 1727634457319,
+    "title": "upload",
+    "description": "this is upload",
+    "imageFile": "/original-a2d53870635a11a097926df50f5bdd84.png",
+    "username": "sibikrishna",
+    "views": 1,
+    "category": "New Streamer",
+    "viewedBy": [
+      "sibikrishna"
+    ]
   }
 ]

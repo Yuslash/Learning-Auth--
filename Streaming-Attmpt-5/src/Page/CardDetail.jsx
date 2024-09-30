@@ -6,6 +6,7 @@ export default function CardDetail() {
     const { id } = useParams()
     const [username, setUsername] = useState("")
     const [cardData, setCardData] = useState([])
+
     const [loading, setLoading] = useState(true)
 
     const card = cardData.find((c) => c.id === parseInt(id))
@@ -24,45 +25,12 @@ export default function CardDetail() {
         }
     }, [])
 
-    const updateViews = async () => {
-        if (card) {
-            try {
-
-                await fetch(`http://localhost:3000/updateViews`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username,
-                        postId: card.id
-                    })
-                })
-
-            } catch (error) {
-                console.error('failed to update views', error)
-            }
-        }
-    }
-
-    
-
     useEffect(() => {
         const user = localStorage.getItem('username')
         fetchUserData(user)
         setUsername(user)
         
     }, [fetchUserData])
-
-    useEffect(() =>{
-
-        if (card) {
-            updateViews()
-        } else {
-            console.log("Failed to Update")
-        }
-
-    }, [card])
 
     const navigate = useNavigate()
 
@@ -85,10 +53,33 @@ export default function CardDetail() {
             navi()
         }
     }
+    
+    const updateViews = async () => {
+        if (card) {  // Ensure card exists before updating views
+            const response = await fetch(`http://localhost:3000/updateViews/${card.id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            })
+
+            if (response.ok) {
+                const result = await response.json()
+                console.log('Updated Document:', result.viewedDoc)
+            } else {
+                console.error('Error updating views:', response.statusText)
+            }
+        }
+    }
+
+    useEffect(() => {
+        updateViews() // Call updateViews when the component mounts
+    }, [card]) // Run when card changes
 
     if (loading) {
         return <AnimationTest />
     }
+
+
 
     return (
         <>

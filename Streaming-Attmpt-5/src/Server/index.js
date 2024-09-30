@@ -115,7 +115,7 @@ app.post('/login', async(req,res) =>
 app.get('/data',async (req, res) =>
 {
 
-    const { useranme } = req.body
+    const { username } = req.body
 
     const database = client.db('prisma')
     const collection = database.collection('mainstream')
@@ -132,7 +132,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     const database = client.db('prisma')
     const mainstreamCollection = database.collection('mainstream')
     
-    const { title, description, username, category } = req.body
+    const { title, description, username, category, viewedBy } = req.body
     const collection = database.collection(`${username}`)
     const imageFile = req.file ? req.file.filename : null
     const id = Date.now()
@@ -147,7 +147,8 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         imageFile,
         username,
         views: initalViews,
-        category: postCategory
+        category: postCategory,
+        viewedBy: viewedBy ? viewedBy : []
     }
 
     await collection.insertOne(jsonData)
@@ -203,50 +204,86 @@ app.delete('/card/:id', async (req, res) => {
     }
 })
 
-app.post('/updateViews', async (req, res) => {
-    const { username, postId } = req.body;
+
+app.post('/updateViews/:id', async (req, res) => {
+    const { username } = req.body;
+    const { id } = req.params;
 
     const database = client.db('prisma');
+    const mainstreamCollection = database.collection("mainstream");
     const userCollection = database.collection(`${username}`);
-    const mainstreamCollection = database.collection('mainstream');
 
-    const post = await userCollection.findOne({ id: postId });
+    try {
+        // Check if the document exists in mainstream
+        const viewedDoc = await mainstreamCollection.findOne({ id: parseInt(id) });
 
-    // Check if the post exists
-    if (!post) { // Change this line
-        return res.status(404).json({ message: "Post Not Found" }); // Return 404 if not found
+        if (viewedDoc) {
+            // Update the viewedBy array and calculate the new view count
+            await mainstreamCollection.updateOne(
+                { id: parseInt(id) },
+                { $addToSet: { viewedBy: username } } // Add username to viewedBy
+            );
+
+            const updatedDoc = await mainstreamCollection.findOne({ id: parseInt(id) });
+            const viewsCount = updatedDoc.viewedBy.length;  // Update views based on the length of viewedBy array
+
+            // Update the views field in both collections
+            await mainstreamCollection.updateOne(
+                { id: parseInt(id) },
+                { $set: { views: viewsCount } }
+            );
+
+            // Update the user's collection with the same changes
+            await userCollection.updateOne(
+                { id: parseInt(id) },
+                {
+                    $addToSet: { viewedBy: username },
+                    $set: { views: viewsCount }
+                }
+            );
+
+            // Fetch the updated collections
+            const updatedMainstream = await mainstreamCollection.find({}).toArray();
+            const updatedUserCollection = await userCollection.find({}).toArray();
+
+            const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+            // Write the updated mainstream collection to mainstream.json
+            const mainstreamFilePath = path.join(__dirname, 'mainstream.json');
+            fs.writeFileSync(mainstreamFilePath, JSON.stringify(updatedMainstream, null, 2));
+
+            // Write the updated user-specific collection to `${username}.json`
+            const userFilePath = path.join(__dirname, `${username}.json`);
+            fs.writeFileSync(userFilePath, JSON.stringify(updatedUserCollection, null, 2));
+
+            return res.status(200).json({
+                message: "Data updated successfully",
+                views: viewsCount,
+                updatedMainstream,
+                updatedUserCollection
+            });
+        } else {
+            return res.status(404).json({ message: "Document not found in mainstream collection" });
+        }
+    } catch (error) {
+        console.error('Error updating collections:', error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-
-    const updateViews = post.views + 1;
-    let updateCategory = post.category;
-
-    if (updateViews < 100) {
-        updateCategory = 'New Streamer';
-    } else if (updateViews >= 100 && updateViews < 500) {
-        updateCategory = 'Rising Star';
-    } else if (updateViews >= 500) {
-        updateCategory = 'Top Streamer';
-    }
-
-    await userCollection.updateOne({ id: postId }, { $set: { views: updateViews, category: updateCategory } });
-    await mainstreamCollection.updateOne({ id: postId }, { $set: { views: updateViews, category: updateCategory } });
-
-    // Export user collection to JSON
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const userData = await userCollection.find({}).toArray();
-    const userOutputFileName = path.join(__dirname, `${username}.json`);
-    fs.writeFileSync(userOutputFileName, JSON.stringify(userData, null, 2), 'utf-8');
-
-    // Export mainstream collection to JSON
-    const mainstreamData = await mainstreamCollection.find({}).toArray();
-    const mainstreamOutputFileName = path.join(__dirname, 'mainstream.json');
-    fs.writeFileSync(mainstreamOutputFileName, JSON.stringify(mainstreamData, null, 2), 'utf-8');
-
-    res.status(200).json({ message: 'Views updated successfully', data: { views: updateViews, category: updateCategory } });
 });
-    
 
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`)
-})
+
+
+const startServer = async () => {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+        app.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error('Failed to connect to MongoDB', error);
+    }
+}
+
+startServer();

@@ -1,7 +1,6 @@
-POST http://localhost:3000/updateViews
+POST http://localhost:3000/updateViews?id=1727636701629
 Content-Type: application/json
 
 {
-    "username": "sibikrishna",
-    "postId": 1727594629101
+    "username": "howareyour"
 }
