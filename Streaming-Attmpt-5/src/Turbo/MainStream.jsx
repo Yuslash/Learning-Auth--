@@ -8,6 +8,7 @@ export default function MainStream()
     const [ isAuthenticated, setIsAuthenticated] = useState(false)
     const [ username, setUsername] = useState("")
     const [ userData, setUserData] = useState([])
+    const [ isSearchActivate, setIsSearchActivate ] = useState(false)
     const navigate = useNavigate()
 
     const fetchUserData = useCallback( async (user) =>
@@ -48,14 +49,37 @@ export default function MainStream()
 
     // console.log(userData);
 
+    const handleSearchActive = () =>
+    {
+        setIsSearchActivate(true)
+    }
+
+    const goback = () =>
+    {
+        setIsSearchActivate(false)
+    }
+
     return <>
         {isAuthenticated ? (
+            
             <div className=" flex flex-col gap-5">
                 <h1>welcome {username} to this mainstream</h1>
-                <PopularGames games={popularGames} />
-                <div className=" flex flex-col gap-4">
-                    <TopStreamer hstreamer={hotStreamer} nstreamer={newStreamer} games={topStreamer} topclip={topClip} />
-                </div>
+                <input className=" p-4 w-full rounded"
+                    placeholder="Search"
+                    type="text"
+                    onFocus={handleSearchActive}
+                />
+                {/* from here the content should hide when click the search */}
+                {isSearchActivate && (<><button className=" p-4 bg-purple-400 rounded" onClick={goback}>Go Back</button></>)}
+                {!isSearchActivate && (
+                    <>
+                        <PopularGames games={popularGames} />
+                        <div className=" flex flex-col gap-4">
+                            <TopStreamer hstreamer={hotStreamer} nstreamer={newStreamer} games={topStreamer} topclip={topClip} />
+                        </div>
+                    </>
+                )}
+                
             </div>
         ) : null }
     </>
