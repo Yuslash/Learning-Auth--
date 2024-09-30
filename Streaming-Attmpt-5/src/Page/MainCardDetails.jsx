@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState, useCallback } from "react"
 import AnimationTest from "../Animations/AnimationTest"
 
-export default function CardDetail() {
+export default function MainCardDetails() {
     const { id } = useParams()
     const [username, setUsername] = useState("")
     const [cardData, setCardData] = useState([])
@@ -29,7 +29,7 @@ export default function CardDetail() {
         const user = localStorage.getItem('username')
         fetchUserData(user)
         setUsername(user)
-        
+
     }, [fetchUserData])
 
     const navigate = useNavigate()
@@ -38,22 +38,6 @@ export default function CardDetail() {
         navigate('/main')
     }
 
-    const deleteCard = async () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this card?")
-
-        if (confirmDelete) {
-            await fetch(`http://localhost:3000/card/${card.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username })
-            })
-            alert('This card is deleted')
-            navi()
-        }
-    }
-    
     const updateViews = async () => {
         if (card) {  // Ensure card exists before updating views
             const response = await fetch(`http://localhost:3000/updateViews/${card.id}`, {
@@ -79,13 +63,6 @@ export default function CardDetail() {
         return <AnimationTest />
     }
 
-    if (card?.username !== username ) {
-        return (
-            <div className=" flex justify-center">
-                <h1 className=" text-red-500">You are not Authorized to view this card</h1>
-            </div>
-        )
-    }
 
 
     return (
@@ -102,7 +79,6 @@ export default function CardDetail() {
             <p>{card?.description}</p>
             <div className="flex gap-2">
                 <button onClick={navi} className="p-4 bg-amber-300 text-black rounded-full mt-5">Back To Home</button>
-                <button onClick={deleteCard} className="p-4 bg-amber-300 text-black rounded-full mt-5">Delete this Card</button>
             </div>
         </>
     )

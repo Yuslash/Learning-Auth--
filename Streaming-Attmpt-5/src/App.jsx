@@ -9,6 +9,7 @@ import MainStream from "./Turbo/MainStream"
 import Dashboard from "./Uploads/Dashboard"
 import SearchPage from "./Page/SearchPage"
 import mainstreamData from './Server/mainstream.json'
+import MainCardDetails from "./Page/MainCardDetails"
 
 export default function App()
 {
@@ -24,6 +25,7 @@ export default function App()
         <Route path="/list" element={<CardList />} />
         <Route path="/anima" element={<AnimationTest />} />
         <Route path="/card/:id" element={<CardDetail />} />
+        <Route path="/main/:id" element={<MainCardDetails />} />
         <Route path="/main" element={<MainStream />} />
         <Route path="/search" element={<SearchPage userData={mainstreamData} />} />
       </Routes>

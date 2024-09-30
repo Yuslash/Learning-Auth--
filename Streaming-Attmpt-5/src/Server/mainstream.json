@@ -6,8 +6,12 @@
     "description": "how thisis sometjing",
     "imageFile": "/23.webp",
     "username": "sibikrishna",
-    "views": 26,
-    "category": "New Streamer"
+    "views": 2,
+    "category": "New Streamer",
+    "viewedBy": [
+      "sambarwatching",
+      "sibikrishna"
+    ]
   },
   {
     "_id": "66f99c19087c33b78fe79a05",
@@ -16,14 +20,15 @@
     "description": "this is upload",
     "imageFile": "/original-a2d53870635a11a097926df50f5bdd84.png",
     "username": "sibikrishna",
-    "views": 7,
+    "views": 6,
     "category": "New Streamer",
     "viewedBy": [
       "sibikrishna",
       null,
       null,
       "howareyou",
-      "howso"
+      "howso",
+      "sambarwatching"
     ]
   },
   {
@@ -57,6 +62,19 @@
     "viewedBy": [
       "howso",
       "sibikrishna",
+      "sambarwatching"
+    ]
+  },
+  {
+    "_id": "66faeeb841a9a2a76c8006b9",
+    "id": 1727721144476,
+    "title": "johncena",
+    "description": "howisthat",
+    "imageFile": "/original-a2d53870635a11a097926df50f5bdd84.png",
+    "username": "sambarwatching",
+    "views": 1,
+    "category": "New Streamer",
+    "viewedBy": [
       "sambarwatching"
     ]
   }
