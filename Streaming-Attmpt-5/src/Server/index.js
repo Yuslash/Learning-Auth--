@@ -211,8 +211,7 @@ app.post('/updateViews/:id', async (req, res) => {
 
     const database = client.db('prisma');
     const mainstreamCollection = database.collection("mainstream");
-    const userCollection = database.collection(`${username}`);
-
+    
     try {
         // Check if the document exists in mainstream
         const viewedDoc = await mainstreamCollection.findOne({ id: parseInt(id) });
@@ -233,18 +232,9 @@ app.post('/updateViews/:id', async (req, res) => {
                 { $set: { views: viewsCount } }
             );
 
-            // Update the user's collection with the same changes
-            await userCollection.updateOne(
-                { id: parseInt(id) },
-                {
-                    $addToSet: { viewedBy: username },
-                    $set: { views: viewsCount }
-                }
-            );
 
             // Fetch the updated collections
             const updatedMainstream = await mainstreamCollection.find({}).toArray();
-            const updatedUserCollection = await userCollection.find({}).toArray();
 
             const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -252,15 +242,10 @@ app.post('/updateViews/:id', async (req, res) => {
             const mainstreamFilePath = path.join(__dirname, 'mainstream.json');
             fs.writeFileSync(mainstreamFilePath, JSON.stringify(updatedMainstream, null, 2));
 
-            // Write the updated user-specific collection to `${username}.json`
-            const userFilePath = path.join(__dirname, `${username}.json`);
-            fs.writeFileSync(userFilePath, JSON.stringify(updatedUserCollection, null, 2));
-
             return res.status(200).json({
                 message: "Data updated successfully",
                 views: viewsCount,
                 updatedMainstream,
-                updatedUserCollection
             });
         } else {
             return res.status(404).json({ message: "Document not found in mainstream collection" });
