@@ -80,11 +80,8 @@ export default function CardDetail() {
     }
 
     if (card?.username !== username ) {
-        return (
-            <div className=" flex justify-center">
-                <h1 className=" text-red-500">You are not Authorized to view this card</h1>
-            </div>
-        )
+        navigate('/main')
+        return null
     }
 
 
