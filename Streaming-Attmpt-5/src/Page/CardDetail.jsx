@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState, useCallback } from "react"
 import AnimationTest from "../Animations/AnimationTest"
+import ReactPlayer from "react-player"
 
 export default function CardDetail() {
     const { id } = useParams()
@@ -84,9 +85,10 @@ export default function CardDetail() {
         return null
     }
 
+    
 
     return (
-        <>
+        <div className=" flex flex-col gap-4 font-semibold text-xl text-white">
             <div className="flex justify-between">
                 <h1>This is card details page</h1>
                 <div className="flex gap-2">
@@ -94,13 +96,20 @@ export default function CardDetail() {
                     <p className=" text-xl font-semibold text-red-300 tracking-normal">{username}</p>
                 </div>
             </div>
-            <img className="w-[300px] h-auto" src={card?.imageFile} alt={card?.title || "No title"} />
+            <div className="player-wrapper">
+                <ReactPlayer
+                    width="500px"
+                    url={card.videoUrl}
+                    controls
+                    light={<img src={card.imageFile} />}
+                />
+            </div>
             <h1>{card?.title}</h1>
             <p>{card?.description}</p>
             <div className="flex gap-2">
                 <button onClick={navi} className="p-4 bg-amber-300 text-black rounded-full mt-5">Back To Home</button>
                 <button onClick={deleteCard} className="p-4 bg-amber-300 text-black rounded-full mt-5">Delete this Card</button>
             </div>
-        </>
+        </div>
     )
 }

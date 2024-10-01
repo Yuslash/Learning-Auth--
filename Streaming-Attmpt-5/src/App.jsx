@@ -11,6 +11,7 @@ import SearchPage from "./Page/SearchPage"
 import mainstreamData from './Server/mainstream.json'
 import MainCardDetails from "./Page/MainCardDetails"
 import UploadAnimation from "./Animations/UploadAnimation"
+import VideoPlayer from "./Delta/VideoPlayer"
 
 export default function App()
 {
@@ -30,6 +31,7 @@ export default function App()
         <Route path="/main/:id" element={<MainCardDetails />} />
         <Route path="/main" element={<MainStream />} />
         <Route path="/search" element={<SearchPage userData={mainstreamData} />} />
+        <Route path="/vplay" element={<VideoPlayer userData={mainstreamData} />} />
       </Routes>
     </Router>
   )
