@@ -132,7 +132,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
     const database = client.db('prisma')
     const mainstreamCollection = database.collection('mainstream')
     
-    const { title, description, username, category, viewedBy } = req.body
+    const { title, description, username, category, viewedBy, videoUrl } = req.body
     const collection = database.collection(`${username}`)
     const imageFile = req.file ? req.file.filename : null
     const id = Date.now()
@@ -146,6 +146,7 @@ app.post('/upload', upload.single('imageFile'), async (req, res) =>
         description,
         imageFile,
         username,
+        videoUrl,
         views: initalViews,
         category: postCategory,
         viewedBy: viewedBy ? viewedBy : []

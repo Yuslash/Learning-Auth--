@@ -78,5 +78,57 @@
       "sambarwatching",
       "sibikrishna"
     ]
+  },
+  {
+    "_id": "66fbc62f2403091f1a5eec70",
+    "id": 1727776303431,
+    "title": "this is title of the video",
+    "description": "there is video on that file",
+    "imageFile": "/images (2).jpeg",
+    "username": "sibikrishna",
+    "videoUrl": "http://res.cloudinary.com/dpxm4k7v5/video/upload/v1727776272/sigyum9zibhtmomjjvwo.mp4",
+    "views": 0,
+    "category": "New Streamer",
+    "viewedBy": []
+  },
+  {
+    "_id": "66fbc77a21c1488460dc9395",
+    "id": 1727776634397,
+    "title": "how mushroom is good",
+    "description": "because mushroom is bad for some people",
+    "imageFile": "/CosmicDukeMalwareAnalysis27Aug2022-fe-1.jpg",
+    "username": "sibikrishna",
+    "videoUrl": "",
+    "views": 0,
+    "category": "New Streamer",
+    "viewedBy": []
+  },
+  {
+    "_id": "66fbc8f4e4891a7b9b3e5eb7",
+    "id": 1727777012411,
+    "title": "Mushroom is good for health",
+    "description": "this is streaming platform so you can upload whatever content",
+    "imageFile": "/wallpaper.png",
+    "username": "sibikrishna",
+    "videoUrl": "http://res.cloudinary.com/dpxm4k7v5/video/upload/v1727776966/hys5altdt6rgmnferquw.mp4",
+    "views": 1,
+    "category": "New Streamer",
+    "viewedBy": [
+      "sibikrishna"
+    ]
+  },
+  {
+    "_id": "66fbceab66cf1d9ccc738f43",
+    "id": 1727778475757,
+    "title": "sibikrishnahow areyou mate",
+    "description": "this is how are uou mate",
+    "imageFile": "/Frame 2576.png",
+    "username": "sibikrishna",
+    "videoUrl": "http://res.cloudinary.com/dpxm4k7v5/video/upload/v1727778309/dhgsggebe4qugmhtv0rk.mp4",
+    "views": 1,
+    "category": "New Streamer",
+    "viewedBy": [
+      "sibikrishna"
+    ]
   }
 ]

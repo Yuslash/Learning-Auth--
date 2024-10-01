@@ -10,6 +10,7 @@ import Dashboard from "./Uploads/Dashboard"
 import SearchPage from "./Page/SearchPage"
 import mainstreamData from './Server/mainstream.json'
 import MainCardDetails from "./Page/MainCardDetails"
+import UploadAnimation from "./Animations/UploadAnimation"
 
 export default function App()
 {
@@ -24,6 +25,7 @@ export default function App()
         <Route path="/upload" element={<Dashboard />} />
         <Route path="/list" element={<CardList />} />
         <Route path="/anima" element={<AnimationTest />} />
+        <Route path="/upanima" element={<UploadAnimation />} />
         <Route path="/card/:id" element={<CardDetail />} />
         <Route path="/main/:id" element={<MainCardDetails />} />
         <Route path="/main" element={<MainStream />} />

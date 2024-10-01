@@ -1,5 +1,4 @@
 import Lottie from 'lottie-react'
-import animationData from './Animation - 1727329069893.json'
 import gameAnimation from './game.json'
 
 export default function AnimationTest()
